@@ -19,23 +19,25 @@ services:
       - traefik.enable=true
       - traefik.docker.network=agoo8w44c08o0goocc0cs0wk
 
-      # === KILL COOLIFY'S AUTO-ROUTERS (this is the real culprit) ===
+      # Kill Coolify auto-routers
       - 'traefik.http.routers.http-0-agoo8w44c08o0goocc0cs0wk-execution.rule=Host(`rpc.arcadia.finance`) && PathPrefix(`/killme-12345`)'
       - 'traefik.http.routers.https-0-agoo8w44c08o0goocc0cs0wk-execution.rule=Host(`rpc.arcadia.finance`) && PathPrefix(`/killme-12345`)'
 
-      # === RPC (8545) ===
+      # RPC (8545)
       - traefik.http.routers.rpc.rule=Host(`rpc.arcadia.finance`)
       - traefik.http.routers.rpc.entrypoints=websecure
+      - traefik.http.routers.rpc.tls=true
       - traefik.http.routers.rpc.tls.certresolver=letsencrypt
-      - traefik.http.routers.rpc.priority=9999
+      - traefik.http.routers.rpc.priority=10000
       - traefik.http.routers.rpc.service=rpc-svc
       - traefik.http.services.rpc-svc.loadbalancer.server.port=8545
 
-      # === WSS (8546) ===
+      # WSS (8546)
       - traefik.http.routers.ws-rpc.rule=Host(`ws.rpc.arcadia.finance`)
       - traefik.http.routers.ws-rpc.entrypoints=websecure
+      - traefik.http.routers.ws-rpc.tls=true
       - traefik.http.routers.ws-rpc.tls.certresolver=letsencrypt
-      - traefik.http.routers.ws-rpc.priority=9999
+      - traefik.http.routers.ws-rpc.priority=10000
       - traefik.http.routers.ws-rpc.service=ws-svc
       - traefik.http.services.ws-svc.loadbalancer.server.port=8546
   node:
