@@ -16,26 +16,20 @@ services:
     env_file:
       - ${NETWORK_ENV:-.env.mainnet} # Use .env.mainnet by default, override with .env.sepolia for testnet
     labels:
-      # === DISABLE Coolify's broken auto-router (the one pointing to 8546) ===
-      - traefik.http.routers.http-0-agoo8w44c08o0goocc0cs0wk-execution.rule=Host(`rpc.arcadia.finance`) && PathPrefix(`/this-never-matches`)
-      - traefik.http.routers.https-0-agoo8w44c08o0goocc0cs0wk-execution.rule=Host(`rpc.arcadia.finance`) && PathPrefix(`/this-never-matches`)
-
-      # === YOUR CLEAN ROUTERS ===
       - traefik.enable=true
+      - traefik.docker.network=agoo8w44c08o0goocc0cs0wk
 
-      # HTTPS JSON-RPC → rpc.arcadia.finance (port 8545)
+      # JSON-RPC HTTPS → rpc.arcadia.finance (port 8545)
       - traefik.http.routers.rpc.rule=Host(`rpc.arcadia.finance`)
       - traefik.http.routers.rpc.entrypoints=websecure
       - traefik.http.routers.rpc.tls.certresolver=letsencrypt
-      - traefik.http.routers.rpc.service=rpc-svc
-      - traefik.http.services.rpc-svc.loadbalancer.server.port=8545
+      - traefik.http.services.rpc.loadbalancer.server.port=8545
 
       # WSS WebSocket → ws.rpc.arcadia.finance (port 8546)
       - traefik.http.routers.ws-rpc.rule=Host(`ws.rpc.arcadia.finance`)
       - traefik.http.routers.ws-rpc.entrypoints=websecure
       - traefik.http.routers.ws-rpc.tls.certresolver=letsencrypt
-      - traefik.http.routers.ws-rpc.service=ws-svc
-      - traefik.http.services.ws-svc.loadbalancer.server.port=8546
+      - traefik.http.services.ws-rpc.loadbalancer.server.port=8546
   node:
     build:
       context: .
