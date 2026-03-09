@@ -20,14 +20,14 @@ services:
       - traefik.docker.network=agoo8w44c08o0goocc0cs0wk
       # --- RPC (HTTP) ---
       - traefik.http.routers.rpc.rule=Host(`rpc.arcadia.finance`)
-      - traefik.http.routers.rpc.entrypoints=websecure
+      - traefik.http.routers.rpc.entrypoints=https
       - traefik.http.routers.rpc.tls=true
       - traefik.http.routers.rpc.tls.certresolver=letsencrypt
       - traefik.http.routers.rpc.service=rpc-svc
       - traefik.http.services.rpc-svc.loadbalancer.server.port=8545
       # --- WebSocket ---
       - traefik.http.routers.ws-rpc.rule=Host(`ws.rpc.arcadia.finance`)
-      - traefik.http.routers.ws-rpc.entrypoints=websecure
+      - traefik.http.routers.ws-rpc.entrypoints=https
       - traefik.http.routers.ws-rpc.tls=true
       - traefik.http.routers.ws-rpc.tls.certresolver=letsencrypt
       - traefik.http.routers.ws-rpc.service=ws-svc
