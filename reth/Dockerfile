@@ -27,7 +27,7 @@ RUN . /tmp/versions.env && git clone $BASE_RETH_NODE_REPO . && \
     git checkout tags/$BASE_RETH_NODE_TAG && \
     bash -c '[ "$(git rev-parse HEAD)" = "$BASE_RETH_NODE_COMMIT" ]' || (echo "Commit hash verification failed" && exit 1)
 
-RUN cargo build --bin base-reth-node --profile maxperf
+RUN cargo build --bin base-reth-node --profile release
 
 FROM ubuntu:24.04
 
